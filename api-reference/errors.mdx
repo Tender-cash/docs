@@ -1,0 +1,48 @@
+---
+title: 'Errors'
+description: ''
+---
+
+Tender follows follows the conventional HTTP status codes. Code in the range of 2xx indicate success, while codes in the range of 4xx indicates that the request failed as a result of the something provided in the request data. And codes in the range 5xx are unexpected server errors.
+
+## Error envelope
+
+On error, responses are wrapped in the same envelope shape as successful responses:
+
+```json
+{
+  "status": "error",
+  "message": "human readable description",
+  "data": null
+}
+```
+
+Some endpoints may include additional fields in `data` with more context about the failure.
+
+## HTTP status codes
+
+| Code | Name                 | Description                                                                            |
+| ---- | -------------------- | -------------------------------------------------------------------------------------- |
+| 200  | OK                   | Request succeeded.                                                                     |
+| 201  | Created              | Request succeeded and a new resource was created.                                      |
+| 202  | Accepted             | Request accepted for processing (e.g. webhook fetch / logs).                           |
+| 400  | Bad Request          | The request is malformed or missing required parameters.                               |
+| 401  | Unauthorized         | Authentication failed – missing, invalid, or expired credentials / signature.          |
+| 403  | Forbidden            | Authenticated, but not allowed to access this resource.                                |
+| 404  | Not Found            | Resource does not exist or is not visible to this merchant.                            |
+| 409  | Conflict             | Conflicting request (for example, duplicate action on the same resource).              |
+| 422  | Unprocessable Entity | Payload validation error – fields are present but invalid.                             |
+| 429  | Too Many Requests    | Rate limit exceeded; back off and retry later.                                         |
+| 5xx  | Server Error         | Unexpected error while processing the request – retry with backoff if appropriate.     |
+
+## Working with validation errors
+
+When you receive a `400` or `422` response, check:
+
+- The request body matches the documented schema (field names and types).
+- Path parameters (for example, `:id`, `:currency`, `:coin`) are present and valid.
+- Authentication headers from the **Authentication** section are correctly set.
+
+Fix the offending fields and retry the request. If errors persist with a seemingly correct
+payload, capture the full response body and contact support.*** End Patch
+

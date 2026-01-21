@@ -1,0 +1,94 @@
+---
+title: 'Fetch Exchange Rates'
+description: 'Get current exchange rate for a cryptocurrency'
+mode: 'api'
+api: 'GET /v1/api/system/rates/{coin}'
+---
+
+## Path Parameters
+
+<ParamField path="coin" type="string" required>
+  Coin identifier
+  
+  **Example:** `"bitcoin"`
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="currency" type="string">
+  Target fiat currency code (optional)
+  
+  **Example:** `"ngn"`
+</ParamField>
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  Exchange rate information for the requested coin
+  
+  <Expandable title="data properties">
+    <ResponseField name="coin" type="string">
+      Coin identifier
+      
+      **Example:** `"bitcoin"`
+    </ResponseField>
+    
+    <ResponseField name="usd" type="number">
+      Current price in USD
+      
+      **Example:** `82752`
+    </ResponseField>
+    
+    <ResponseField name="rate" type="number">
+      Exchange rate to the target currency
+      
+      **Example:** `127843151.04`
+    </ResponseField>
+    
+    <ResponseField name="currency" type="string">
+      Target fiat currency code
+      
+      **Example:** `"ngn"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>

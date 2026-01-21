@@ -1,33 +1,80 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'The Tender REST API lets you securely collect cryptocurrency payments and manage agents through a reliable platform built for developers.'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Getting Started
 
-## Welcome
+Tender API is a RESTful service that accepts and returns JSON. All requests must be made over HTTPS and authenticated using HMAC signatures. To get started, create a Tender account and obtain your API credentials from the dashboard.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+**Base URL**
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
-
-## Authentication
-
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```text
+https://api.tender.cash
 ```
+
+**Development/Testing URL**
+
+```text
+https://devapi.tender.cash
+```
+
+All documented endpoints are prefixed with `v1/api/...`.
+
+---
+
+## HTTP Status Codes
+
+| Code | Description          | Definition                                                                                       |
+| ---- | -------------------- | ------------------------------------------------------------------------------------------------ |
+| 200  | OK                   | Everything worked as expected                                                                    |
+| 400  | Bad Request          | Request could not be processed, often due to missing or invalid parameters                       |
+| 401  | Unauthorized         | Could not complete authorization due to missing key, invalid key or invalid HMAC signature       |
+| 404  | Not Found            | Resource does not exist                                                                          |
+| 409  | Conflict             | Request conflicts with another request                                                           |
+| 422  | Unprocessable Entity | Payload validation error                                                                         |
+| 429  | Too Many Requests    | You are sending too many requests                                                                |
+| 5xx  | Server Error         | An unexpected error happened while processing the request                                        |
+
+---
+
+## Supported Blockchains
+
+Tender supports multiple blockchain networks for cryptocurrency payments:
+
+| Blockchain        | Chain ID      | Native Token | Status |
+| ----------------- | ------------- | ------------ | ------ |
+| Ethereum          | ethereum      | ETH          | Active |
+| Avalanche C-Chain | avalanche     | AVAX         | Active |
+| BNB Smart Chain   | bsc           | BSC          | Active |
+| Polygon           | polygon       | MATIC        | Active |
+| Bitcoin           | bitcoin       | BTC          | Active |
+| TRON              | tron          | TRON         | Active |
+| Solana            | sol           | SOL          | Active |
+| Aptos             | aptos         | APTOS        | Active |
+| Movement          | move-1, move-2 | MOVE        | Active |
+
+---
+
+## Supported Cryptocurrencies
+
+Each blockchain supports various cryptocurrencies including native tokens and stablecoins (USDC, USDT). Use the [Fetch Chains](/api-reference/endpoint/fetch-chains) and [Fetch Currencies](/api-reference/endpoint/fetch-currencies) endpoints to get the complete list of supported currencies and their configurations.
+
+---
+
+## API Endpoint Groups
+
+The API is organized into the following groups:
+
+- **Agents & Businesses**: Create and manage agents (sub-businesses) associated with your merchant account
+- **Payment**: Initiate and validate cryptocurrency payment transactions
+- **System**: Retrieve system configuration including supported chains, currencies, and exchange rates
+- **Webhooks**: Configure webhook endpoints and monitor delivery logs for real-time event notifications
+
+---
+
+## Need Integration Support?
+
+For support, reach out to our team at **support@tender.cash** or visit our [support portal](https://tender.cash/support).
+
+

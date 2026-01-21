@@ -1,0 +1,16 @@
+---
+title: "Webhook Events"
+---
+
+## Supported Events
+
+We'll keep expanding this list as we add more webhooks.
+
+| Event Type                     | Description                                                                  |
+| ------------------------------ | ---------------------------------------------------------------------------- |
+| transaction_completed          | A payment transaction was successfully completed and confirmed on blockchain |
+| transaction_overpayment        | A transaction received more than the expected amount                         |
+| transaction_partially_paid     | A transaction received partial payment, less than the expected amount        |
+| transaction_requested          | A new payment transaction has been initiated                                 |
+| transaction_reserved           | A transaction has been reserved and is awaiting payment                      |
+| transaction_cancelled          | A transaction was cancelled before completion                                |

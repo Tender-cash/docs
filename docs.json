@@ -1,13 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Tender Docs",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
     "dark": "#15803D"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/images/icon.png",
   "navigation": {
     "tabs": [
       {
@@ -17,32 +17,14 @@
             "group": "Getting started",
             "pages": [
               "index",
+              "get-started/create-account",
+              "get-started/api-credentials",
               "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "get-started/webhooks",
+              "get-started/webhook-events",
+              "get-started/definitions",
+              "get-started/use-cases",
+              "get-started/api-specification"
             ]
           }
         ]
@@ -51,18 +33,56 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/introduction",
+              "api-reference/authentication",
+              "api-reference/errors"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Agents & businesses",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/create"
+            ]
+          },
+          {
+            "group": "Payment",
+            "pages": [
+              "api-reference/endpoint/initiate-payment",
+              "api-reference/endpoint/initiate-payment-currency",
+              "api-reference/endpoint/validate-payment"
+            ]
+          },
+          {
+            "group": "System",
+            "pages": [
+              "api-reference/endpoint/fetch-chains",
+              "api-reference/endpoint/fetch-chain-currencies",
+              "api-reference/endpoint/fetch-currencies",
+              "api-reference/endpoint/fetch-exchange-rates"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "api-reference/endpoint/add-webhook",
+              "api-reference/endpoint/fetch-webhook",
+              "api-reference/endpoint/delete-webhook",
+              "api-reference/endpoint/webhook-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "SDKs",
+        "groups": [
+          {
+            "group": "SDKs & Libraries",
+            "pages": [
+              "sdk/overview",
+              "sdk/react",
+              "sdk/vue"
             ]
           }
         ]
@@ -71,33 +91,28 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/tender-cash",
+          "icon": "github"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/images/light-icon.svg",
+    "dark": "/images/dark-icon.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@tender.cash"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://merchant.tender.cash"
     }
   },
   "contextual": {
@@ -114,9 +129,9 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/tender_cash",
+      "github": "https://github.com/tender-cash",
+      "linkedin": "https://www.linkedin.com/company/tender-merchant/"
     }
   }
 }

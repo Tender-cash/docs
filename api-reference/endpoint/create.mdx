@@ -1,4 +1,402 @@
 ---
-title: 'Create Plant'
-openapi: 'POST /plants'
+title: 'Agents & sub-businesses'
+description: 'Create agents/sub-businesse.'
+mode: 'api'
+api: 'POST /v1/api/agent/create'
 ---
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+<ParamField header="Content-Type" type="string" required>
+  Media type of the request body
+  
+  **Example:** `"application/json"`
+</ParamField>
+
+## Body
+
+<ParamField body="firstName" type="string" required>
+  First name of the agent
+  
+  **Example:** `"AgentPortable090102"`
+</ParamField>
+
+<ParamField body="lastName" type="string" required>
+  Last name of the agent
+  
+  **Example:** `"Last"`
+</ParamField>
+
+<ParamField body="email" type="string" required>
+  Email address of the agent
+  
+  **Example:** `"agent990990@sample.com"`
+</ParamField>
+
+<ParamField body="phoneNumber" type="string" required>
+  Phone number of the agent
+  
+  **Example:** `"0123246784824"`
+</ParamField>
+
+<ParamField body="location" type="string" required>
+  Location of the agent
+  
+  **Example:** `"Ogun Road"`
+</ParamField>
+
+<ParamField body="address" type="string" required>
+  Full address of the agent
+  
+  **Example:** `"Rest Adfdfs sdgjdskgds"`
+</ParamField>
+
+<ParamField body="country" type="string" required>
+  Country where the agent is located
+  
+  **Example:** `"Nigeria"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  The created agent object containing all agent information
+  
+  <Expandable title="data properties">
+    <ResponseField name="_id" type="string">
+      Unique MongoDB identifier for the agent
+      
+      **Example:** `"66f33b1fa9446a6b6b8f32cd"`
+    </ResponseField>
+    
+    <ResponseField name="firstName" type="string">
+      First name of the agent
+      
+      **Example:** `"AgentPortable090102"`
+    </ResponseField>
+    
+    <ResponseField name="lastName" type="string">
+      Last name of the agent
+      
+      **Example:** `"Last"`
+    </ResponseField>
+    
+    <ResponseField name="email" type="string">
+      Email address of the agent
+      
+      **Example:** `"agent990990@sample.com"`
+    </ResponseField>
+    
+    <ResponseField name="phoneNumber" type="string">
+      Phone number of the agent
+      
+      **Example:** `"0123246784824"`
+    </ResponseField>
+    
+    <ResponseField name="location" type="string">
+      Location of the agent
+      
+      **Example:** `"Ogun Road"`
+    </ResponseField>
+    
+    <ResponseField name="address" type="string">
+      Full address of the agent
+      
+      **Example:** `"Rest Adfdfs sdgjdskgds"`
+    </ResponseField>
+    
+    <ResponseField name="country" type="string">
+      Country where the agent is located
+      
+      **Example:** `"Nigeria"`
+    </ResponseField>
+    
+    <ResponseField name="active" type="boolean">
+      Whether the agent is currently active
+      
+      **Example:** `true`
+    </ResponseField>
+    
+    <ResponseField name="agentId" type="string">
+      Unique Tender agent identifier
+      
+      **Example:** `"vbibtucm9yn"`
+    </ResponseField>
+    
+    <ResponseField name="merchantId" type="string">
+      ID of the merchant this agent belongs to
+      
+      **Example:** `"6538e8f9bdec6d1a21978a64"`
+    </ResponseField>
+    
+    <ResponseField name="walletBalance" type="string">
+      Test environment wallet balance
+      
+      **Example:** `"46117000418.68537"`
+    </ResponseField>
+    
+    <ResponseField name="walletBalanceLive" type="string">
+      Live environment wallet balance
+      
+      **Example:** `"0"`
+    </ResponseField>
+    
+    <ResponseField name="currency" type="string">
+      Default currency for the agent
+      
+      **Example:** `"USD"`
+    </ResponseField>
+    
+    <ResponseField name="createdAt" type="string">
+      ISO 8601 timestamp when the agent was created
+      
+      **Example:** `"2024-09-24T22:20:15.650Z"`
+    </ResponseField>
+    
+    <ResponseField name="updatedAt" type="string">
+      ISO 8601 timestamp when the agent was last updated
+      
+      **Example:** `"2025-03-15T09:36:05.828Z"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+
+
+### Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  Container object for the agents list and pagination data
+  
+  <Expandable title="data properties">
+    <ResponseField name="agents" type="array">
+      Array of agent objects
+      
+      <Expandable title="agent object">
+        <ResponseField name="_id" type="string">
+          Unique MongoDB identifier for the agent
+          
+          **Example:** `"66f33b1fa9446a6b6b8f32cd"`
+        </ResponseField>
+        
+        <ResponseField name="firstName" type="string">
+          First name of the agent
+          
+          **Example:** `"bo"`
+        </ResponseField>
+        
+        <ResponseField name="lastName" type="string">
+          Last name of the agent
+          
+          **Example:** `"bo"`
+        </ResponseField>
+        
+        <ResponseField name="email" type="string">
+          Email address of the agent
+          
+          **Example:** `"test10@bobnet.com"`
+        </ResponseField>
+        
+        <ResponseField name="phoneNumber" type="string">
+          Phone number of the agent
+          
+          **Example:** `"13030303"`
+        </ResponseField>
+        
+        <ResponseField name="location" type="string">
+          Location of the agent
+          
+          **Example:** `"Lekki"`
+        </ResponseField>
+        
+        <ResponseField name="address" type="string">
+          Full address of the agent
+          
+          **Example:** `"44"`
+        </ResponseField>
+        
+        <ResponseField name="country" type="string">
+          Country where the agent is located
+          
+          **Example:** `"Nigeria"`
+        </ResponseField>
+        
+        <ResponseField name="totalSales" type="string">
+          Total sales amount with currency
+          
+          **Example:** `"29.00 USD"`
+        </ResponseField>
+        
+        <ResponseField name="active" type="boolean">
+          Whether the agent is currently active
+          
+          **Example:** `true`
+        </ResponseField>
+        
+        <ResponseField name="agentId" type="string">
+          Unique Tender agent identifier
+          
+          **Example:** `"vbibtucm9yn"`
+        </ResponseField>
+        
+        <ResponseField name="merchantId" type="string">
+          ID of the merchant this agent belongs to
+          
+          **Example:** `"6538e8f9bdec6d1a21978a64"`
+        </ResponseField>
+        
+        <ResponseField name="walletBalance" type="string">
+          Test environment wallet balance
+          
+          **Example:** `"46117000418.68537"`
+        </ResponseField>
+        
+        <ResponseField name="walletBalanceLive" type="string">
+          Live environment wallet balance
+          
+          **Example:** `"0"`
+        </ResponseField>
+        
+        <ResponseField name="currency" type="string">
+          Default currency for the agent
+          
+          **Example:** `"USD"`
+        </ResponseField>
+        
+        <ResponseField name="defaultFiatCurrency" type="object">
+          Default fiat currency configuration
+          
+          <Expandable title="defaultFiatCurrency properties">
+            <ResponseField name="currency" type="string">
+              Fiat currency code
+              
+              **Example:** `"NGN"`
+            </ResponseField>
+            
+            <ResponseField name="useSystemRate" type="boolean">
+              Whether to use system exchange rate
+              
+              **Example:** `true`
+            </ResponseField>
+            
+            <ResponseField name="rate" type="string">
+              Custom exchange rate (if not using system rate)
+              
+              **Example:** `"0"`
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+        
+        <ResponseField name="walletBalances" type="object">
+          Balances across different blockchain networks
+          
+          <Expandable title="walletBalances properties">
+            <ResponseField name="sol" type="object">
+              Solana network balances
+              
+              **Example:** `{ "solana": 0.2763218931223541, "sol": 0 }`
+            </ResponseField>
+            
+            <ResponseField name="ton" type="object">
+              TON network balances
+              
+              **Example:** `{ "ton": -0.004925373134328358 }`
+            </ResponseField>
+            
+            <ResponseField name="move" type="object">
+              Move network balances
+              
+              **Example:** `{ "move": 100000000865.4547 }`
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+        
+        <ResponseField name="createdAt" type="string">
+          ISO 8601 timestamp when the agent was created
+          
+          **Example:** `"2024-09-24T22:20:15.650Z"`
+        </ResponseField>
+        
+        <ResponseField name="updatedAt" type="string">
+          ISO 8601 timestamp when the agent was last updated
+          
+          **Example:** `"2025-03-15T09:36:05.828Z"`
+        </ResponseField>
+        
+        <ResponseField name="__v" type="number">
+          Version key for MongoDB document
+          
+          **Example:** `0`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="pages" type="number">
+      Total number of pages available
+      
+      **Example:** `1`
+    </ResponseField>
+    
+    <ResponseField name="page" type="number">
+      Current page number
+      
+      **Example:** `1`
+    </ResponseField>
+    
+    <ResponseField name="limit" type="number">
+      Number of items per page
+      
+      **Example:** `12`
+    </ResponseField>
+  </Expandable>
+</ResponseField>

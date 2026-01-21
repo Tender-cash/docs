@@ -1,0 +1,146 @@
+---
+title: 'Fetch Chain Currencies'
+description: 'Retrieve currencies supported on a specific blockchain'
+mode: 'api'
+api: 'GET /v1/api/system/chains/{id}/currency'
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  Chain identifier
+  
+  **Example:** `"avalanche"`
+</ParamField>
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="data" type="array" required>
+  Array of currencies supported on the specified chain
+  
+  <Expandable title="currency object">
+    <ResponseField name="_id" type="string">
+      Unique MongoDB identifier for the currency
+      
+      **Example:** `"64fc4cda43812c15552311d7"`
+    </ResponseField>
+    
+    <ResponseField name="id" type="string">
+      Unique identifier for the currency
+      
+      **Example:** `"avalanche"`
+    </ResponseField>
+    
+    <ResponseField name="name" type="string">
+      Display name of the currency
+      
+      **Example:** `"Avax"`
+    </ResponseField>
+    
+    <ResponseField name="icon" type="string">
+      URL to the currency's icon image
+      
+      **Example:** `"https://devapi.tender.cash/icons/avax.png"`
+    </ResponseField>
+    
+    <ResponseField name="isContract" type="boolean">
+      Whether this is a smart contract token
+      
+      **Example:** `false`
+    </ResponseField>
+    
+    <ResponseField name="chains" type="array">
+      Array of chains where this currency is available
+      
+      **Example:** `["avalanche"]`
+    </ResponseField>
+    
+    <ResponseField name="priceTag" type="string">
+      Price identifier for market data
+      
+      **Example:** `"avalanche-2"`
+    </ResponseField>
+    
+    <ResponseField name="fee" type="object">
+      Fee configuration per chain
+      
+      **Example:** `{ "avalanche": "5" }`
+    </ResponseField>
+    
+    <ResponseField name="symbol" type="string">
+      Currency symbol
+      
+      **Example:** `"AVAX"`
+    </ResponseField>
+    
+    <ResponseField name="status" type="string">
+      Current status of the currency
+      
+      **Example:** `"active"`
+    </ResponseField>
+    
+    <ResponseField name="contractAddress" type="object">
+      Smart contract addresses per chain (if applicable)
+      
+      **Example:** `{ "ethereum": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" }`
+    </ResponseField>
+    
+    <ResponseField name="activationFee" type="object">
+      Activation fees per chain (if applicable)
+      
+      **Example:** `{ "stellar": "1.1" }`
+    </ResponseField>
+    
+    <ResponseField name="createdAt" type="string">
+      ISO 8601 timestamp when the currency was added
+      
+      **Example:** `"2023-09-09T10:45:46.407Z"`
+    </ResponseField>
+    
+    <ResponseField name="updatedAt" type="string">
+      ISO 8601 timestamp when the currency was last updated
+      
+      **Example:** `"2024-08-03T23:02:48.361Z"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>

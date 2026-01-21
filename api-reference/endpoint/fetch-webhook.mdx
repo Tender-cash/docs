@@ -1,0 +1,120 @@
+---
+title: 'Fetch Webhook'
+description: 'Get active webhook configuration for the merchant'
+mode: 'api'
+api: 'GET /v1/api/webhook'
+---
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"Webhooks fetched"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  The active webhook configuration
+  
+  <Expandable title="data properties">
+    <ResponseField name="_id" type="string">
+      Unique MongoDB identifier for the webhook
+      
+      **Example:** `"69105ed34b9f23d52d1be957"`
+    </ResponseField>
+    
+    <ResponseField name="merchantId" type="string">
+      Merchant ID associated with the webhook
+      
+      **Example:** `"6538e8f9bdec6d1a21978a64"`
+    </ResponseField>
+    
+    <ResponseField name="description" type="string">
+      Description of the webhook
+      
+      **Example:** `"example requests"`
+    </ResponseField>
+    
+    <ResponseField name="url" type="string">
+      Webhook endpoint URL
+      
+      **Example:** `"https://example.com"`
+    </ResponseField>
+    
+    <ResponseField name="eventTypes" type="array">
+      Array of subscribed event types
+      
+      **Example:** `["transaction_completed"]`
+    </ResponseField>
+    
+    <ResponseField name="headers" type="object">
+      Custom headers for webhook requests
+      
+      **Example:** `{ "api-key": "allow-requior" }`
+    </ResponseField>
+    
+    <ResponseField name="isActive" type="boolean">
+      Whether the webhook is currently active
+      
+      **Example:** `true`
+    </ResponseField>
+    
+    <ResponseField name="isDeleted" type="boolean">
+      Whether the webhook has been deleted
+      
+      **Example:** `false`
+    </ResponseField>
+    
+    <ResponseField name="createdAt" type="string">
+      ISO 8601 timestamp when the webhook was created
+      
+      **Example:** `"2025-11-09T09:28:51.401Z"`
+    </ResponseField>
+    
+    <ResponseField name="updatedAt" type="string">
+      ISO 8601 timestamp when the webhook was last updated
+      
+      **Example:** `"2025-11-09T09:28:51.401Z"`
+    </ResponseField>
+    
+    <ResponseField name="__v" type="number">
+      Version key for MongoDB document
+      
+      **Example:** `0`
+    </ResponseField>
+  </Expandable>
+</ResponseField>

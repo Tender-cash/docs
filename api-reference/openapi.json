@@ -1,94 +1,374 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Tender API",
+    "description": "Tender Developer API for cryptocurrency payments and agent management",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Tender Support",
+      "url": "https://tender.cash"
+    }
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://devapi.tender.cash",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://api.tender.cash",
+      "description": "Production Server"
     }
   ],
   "security": [
     {
-      "bearerAuth": []
+      "TenderAuth": []
     }
   ],
   "paths": {
-    "/plants": {
+    "/v1/api/agent/create": {
+      "post": {
+        "summary": "Create Agent",
+        "description": "Create a new agent (or sub-business) under a merchant",
+        "operationId": "createAgent",
+        "tags": ["Agents"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAgentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/agent": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
+        "summary": "Get Agents",
+        "description": "List agents for the authenticated merchant",
+        "operationId": "getAgents",
+        "tags": ["Agents"],
+        "responses": {
+          "200": {
+            "description": "Agents retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgentsResponse"
+                },
+                "example": {
+                  "status": "success",
+                  "message": "success",
+                  "data": {
+                    "agents": [
+                      {
+                        "_id": "66f33b1fa9446a6b6b8f32cd",
+                        "firstName": "bo",
+                        "lastName": "bo",
+                        "email": "test10@bobnet.com",
+                        "phoneNumber": "13030303",
+                        "location": "Lekki",
+                        "totalSales": "29.00 USD",
+                        "country": "Nigeria",
+                        "address": "44",
+                        "active": true,
+                        "agentId": "vbibtucm9yn",
+                        "walletBalance": "46117000418.68537",
+                        "walletBalanceLive": "0",
+                        "merchantId": "6538e8f9bdec6d1a21978a64",
+                        "currency": "USD",
+                        "createdAt": "2024-09-24T22:20:15.650Z",
+                        "updatedAt": "2025-03-15T09:36:05.828Z"
+                      }
+                    ],
+                    "pages": 1,
+                    "page": 1,
+                    "limit": 12
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/payment/initiate": {
+      "post": {
+        "summary": "Initiate Payment",
+        "description": "Create a new payment transaction",
+        "operationId": "initiatePayment",
+        "tags": ["Transactions"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiatePaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitiatePaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/payment/initiate/{currency}": {
+      "post": {
+        "summary": "Initiate Payment By Currency",
+        "description": "Create a new payment transaction for a specific currency",
+        "operationId": "initiatePaymentByCurrency",
+        "tags": ["Transactions"],
         "parameters": [
           {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
+            "name": "currency",
+            "in": "path",
+            "required": true,
+            "description": "Currency code (e.g., ngn, usd)",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiatePaymentByCurrencyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitiatePaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/payment/validate/{id}": {
+      "post": {
+        "summary": "Validate Payment",
+        "description": "Validate a payment transaction by ID",
+        "operationId": "validatePayment",
+        "tags": ["Transactions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Transaction ID",
+            "schema": {
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "Payment validation result",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/ValidatePaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/system/chains": {
+      "get": {
+        "summary": "Fetch Allowed Chains",
+        "description": "Get list of all supported blockchain networks",
+        "operationId": "getAllowedChains",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "Chains retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChainsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/system/chains/{id}/currency": {
+      "get": {
+        "summary": "Fetch Chain Currencies",
+        "description": "Get currencies available for a specific blockchain",
+        "operationId": "getChainCurrencies",
+        "tags": ["System"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Chain ID (e.g., avalanche, ethereum)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Currencies retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrenciesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/system/currency": {
+      "get": {
+        "summary": "Fetch All Currencies",
+        "description": "Get all available currencies with their supported chains",
+        "operationId": "getAllCurrencies",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "Currencies retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrenciesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api/system/rates/{coin}": {
+      "get": {
+        "summary": "Fetch Exchange Rates",
+        "description": "Get current exchange rate for a cryptocurrency",
+        "operationId": "getExchangeRates",
+        "tags": ["System"],
+        "parameters": [
+          {
+            "name": "coin",
+            "in": "path",
+            "required": true,
+            "description": "Coin identifier (e.g., bitcoin, ethereum)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "description": "Target currency (e.g., ngn, usd)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exchange rate retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeRateResponse"
+                },
+                "example": {
+                  "status": "success",
+                  "message": "success",
+                  "data": {
+                    "coin": "bitcoin",
+                    "usd": 82752,
+                    "rate": 127843151.04,
+                    "currency": "ngn"
                   }
                 }
               }
             }
-          },
-          "400": {
-            "description": "Unexpected error",
+          }
+        }
+      }
+    },
+    "/v1/api/webhook": {
+      "post": {
+        "summary": "Add Webhook",
+        "description": "Register a new webhook endpoint",
+        "operationId": "addWebhook",
+        "tags": ["Webhooks"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddWebhookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/WebhookResponse"
                 }
               }
             }
           }
         }
       },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
+      "get": {
+        "summary": "Fetch Webhooks",
+        "description": "Get all registered webhooks for the merchant",
+        "operationId": "getWebhooks",
+        "tags": ["Webhooks"],
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Webhooks retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/WebhookResponse"
                 }
               }
             }
@@ -96,122 +376,726 @@
         }
       }
     },
-    "/plants/{id}": {
+    "/v1/api/webhook/{id}": {
       "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+        "summary": "Delete Webhook",
+        "description": "Remove a webhook by ID",
+        "operationId": "deleteWebhook",
+        "tags": ["Webhooks"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of plant to delete",
             "required": true,
+            "description": "Webhook ID",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "Webhook deleted successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "deleted": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
-        "requestBody": {
-          "description": "Plant added to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          }
-        },
+    },
+    "/v1/api/webhook/logs": {
+      "get": {
+        "summary": "Get Webhook Logs",
+        "description": "Retrieve webhook delivery logs",
+        "operationId": "getWebhookLogs",
+        "tags": ["Webhooks"],
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Webhook logs retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookLogsResponse"
+                }
+              }
+            }
           }
         }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "TenderAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "authorization",
+        "description": "HMAC-SHA256 signature. Required headers: x-access-id, x-request-id (UUID), x-timestamp (ISO), authorization (HMAC signature)"
+      }
+    },
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
+      "CreateAgentRequest": {
         "type": "object",
+        "required": ["firstName", "lastName", "email", "phoneNumber", "location", "address", "country"],
         "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
+          "firstName": {
+            "type": "string",
+            "description": "First name of the agent",
+            "example": "AgentPortable090102"
           },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
+          "lastName": {
+            "type": "string",
+            "description": "Last name of the agent",
+            "example": "Last"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the agent",
+            "example": "agent990990@sample.com"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Phone number of the agent",
+            "example": "0123246784824"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location of the agent",
+            "example": "Ogun Road"
+          },
+          "address": {
+            "type": "string",
+            "description": "Full address of the agent",
+            "example": "Rest Adfdfs sdgjdskgds"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country where the agent is located",
+            "example": "Nigeria"
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
+      "AgentResponse": {
         "type": "object",
         "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Agent"
+          }
+        }
+      },
+      "Agent": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "agentId": {
+            "type": "string"
+          },
+          "merchantId": {
+            "type": "string"
+          },
+          "walletBalance": {
+            "type": "string"
+          },
+          "walletBalanceLive": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "totalSales": {
+            "type": "string"
+          },
+          "defaultFiatCurrency": {
+            "type": "object",
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "useSystemRate": {
+                "type": "boolean"
+              },
+              "rate": {
+                "type": "string"
+              }
+            }
+          },
+          "walletBalances": {
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetAgentsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
           },
           "message": {
             "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "agents": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              },
+              "pages": {
+                "type": "integer"
+              },
+              "page": {
+                "type": "integer"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "InitiatePaymentRequest": {
+        "type": "object",
+        "required": ["agentId", "amount", "chain", "coin"],
+        "properties": {
+          "agentId": {
+            "type": "string",
+            "description": "Agent ID to receive payment",
+            "example": "6538eaaebdec6d1a21978e6a"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Payment amount",
+            "example": "1.023"
+          },
+          "chain": {
+            "type": "string",
+            "description": "Blockchain network",
+            "example": "avalanche"
+          },
+          "coin": {
+            "type": "string",
+            "description": "Cryptocurrency coin",
+            "example": "avalanche"
+          }
+        }
+      },
+      "InitiatePaymentByCurrencyRequest": {
+        "type": "object",
+        "required": ["amount", "chain", "currency"],
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "Payment amount",
+            "example": "1.023"
+          },
+          "chain": {
+            "type": "string",
+            "description": "Blockchain network",
+            "example": "avalanche"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code",
+            "example": "avalanche"
+          }
+        }
+      },
+      "InitiatePaymentResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "chain": {
+                "type": "string"
+              },
+              "chainId": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "string"
+              },
+              "agentId": {
+                "type": "string"
+              },
+              "merchantId": {
+                "type": "string"
+              },
+              "usdAmount": {
+                "type": "string"
+              },
+              "coinAmount": {
+                "type": "string"
+              },
+              "fee": {
+                "type": "number"
+              },
+              "feeUSD": {
+                "type": "number"
+              },
+              "feeSent": {
+                "type": "boolean"
+              },
+              "rate": {
+                "type": "number"
+              },
+              "walletAddress": {
+                "type": "string"
+              },
+              "walletAddressIndex": {
+                "type": "integer"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "activationFee": {
+                "type": "number"
+              },
+              "activationFeeUSD": {
+                "type": "number"
+              },
+              "contractAddress": {
+                "type": "string",
+                "nullable": true
+              },
+              "agentAmount": {
+                "type": "string"
+              },
+              "agentRate": {
+                "type": "string"
+              },
+              "agentCurrency": {
+                "type": "string"
+              },
+              "txId": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ValidatePaymentResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "chain": {
+                "type": "string"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "walletAddress": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "string"
+              },
+              "usdAmount": {
+                "type": "string"
+              },
+              "fee": {
+                "type": "string"
+              },
+              "agentId": {
+                "type": "string"
+              },
+              "merchantId": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "txId": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      "ChainsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Chain"
+                }
+              },
+              "pages": {
+                "type": "integer"
+              },
+              "page": {
+                "type": "integer"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "Chain": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "coin": {
+            "type": "string"
+          },
+          "chainType": {
+            "type": "string"
+          },
+          "explorer": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "rpcUrl": {
+            "type": "string"
+          },
+          "allowPreFunded": {
+            "type": "boolean"
+          },
+          "isMultiChain": {
+            "type": "boolean"
+          },
+          "cType": {
+            "type": "string"
+          }
+        }
+      },
+      "CurrenciesResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Currency"
+            }
+          }
+        }
+      },
+      "Currency": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "isContract": {
+            "type": "boolean"
+          },
+          "chains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "priceTag": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "object"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "contractAddress": {
+            "type": "object"
+          }
+        }
+      },
+      "ExchangeRateResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "coin": {
+                "type": "string"
+              },
+              "usd": {
+                "type": "number"
+              },
+              "rate": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AddWebhookRequest": {
+        "type": "object",
+        "required": ["url", "eventTypes"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Webhook endpoint URL",
+            "example": "https://example.com"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the webhook",
+            "example": "Transaction notifications"
+          },
+          "eventTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Event types to subscribe to",
+            "example": ["transaction_completed"]
+          },
+          "headers": {
+            "type": "object",
+            "description": "Custom headers to include in webhook requests",
+            "example": {
+              "api-key": "your-api-key"
+            }
+          }
+        }
+      },
+      "WebhookResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "merchantId": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "eventTypes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "headers": {
+                "type": "object"
+              },
+              "isActive": {
+                "type": "boolean"
+              },
+              "isDeleted": {
+                "type": "boolean"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      "WebhookLogsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "webhookLogs": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "total": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              }
+            }
           }
         }
       }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Agents",
+      "description": "Manage agents and sub-businesses"
+    },
+    {
+      "name": "Transactions",
+      "description": "Payment and transaction operations"
+    },
+    {
+      "name": "System",
+      "description": "System information and configuration"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Webhook management and logs"
+    }
+  ]
 }

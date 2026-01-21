@@ -1,0 +1,102 @@
+---
+title: "Definitions"
+---
+
+Below are essential terms you'll encounter while integrating Tender. Understanding these will help ensure smooth implementation, testing, and reconciliation of transactions.
+
+## Authentication & Security
+
+#### Access ID
+
+A public credential used to identify your account when making API requests. This identifier is passed in the `x-access-id` header with every request.
+
+#### Access Secret
+
+A private credential used for signing and verifying API requests. You must use your secret to generate HMAC signatures for authentication. Never share this key or commit it to version control.
+
+#### Signing Requests
+
+Tender requires all API requests to be signed using HMAC-SHA256 with your Access Secret. This ensures that requests are legitimate and have not been tampered with during transmission.
+
+---
+
+## Environments
+
+We have two environments in Tender:
+
+| Environment    | Details                                                                                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Test**       | A sandbox environment used during development and testing. It allows developers to simulate payment flows and API interactions using testnet cryptocurrencies. No actual funds are processed.                |
+| **Production** | The live environment where real cryptocurrency transactions occur. It processes actual payments on mainnet blockchains and should only be accessed with secure, verified credentials.                        |
+
+---
+
+## Payments
+
+#### Agent
+
+A sub-business or merchant account that can receive cryptocurrency payments independently. Agents have their own wallet addresses and can be managed through the Tender API.
+
+#### Payment Initiation
+
+The process of creating a new cryptocurrency payment request. Returns a wallet address where the customer can send funds on their chosen blockchain.
+
+#### Chain
+
+A blockchain network (e.g., Ethereum, Polygon, BSC) where cryptocurrency transactions are processed. Tender supports multiple chains for flexibility.
+
+#### Coin/Currency
+
+The specific cryptocurrency used for payment (e.g., USDT, USDC, ETH). Each chain may support multiple currencies.
+
+#### Transaction Validation
+
+The confirmation of a cryptocurrency payment after it has been broadcast and confirmed on the blockchain. Returns the transaction status and details.
+
+---
+
+## Integration Terms
+
+#### Webhook
+
+A real-time notification sent to your server when certain events occur (e.g., transaction completed, payment failed). Webhooks are configured with a callback URL and optional custom headers.
+
+#### Callback URL
+
+The endpoint on your system where Tender sends webhook events. It must be accessible over HTTPS and respond with a 2xx status code.
+
+#### Exchange Rate
+
+The conversion rate between cryptocurrencies and fiat currencies (e.g., USDT to USD). Tender provides real-time exchange rate data through the API.
+
+#### Request ID
+
+A unique identifier (UUID) for each API request, passed in the `x-request-id` header. Used for request tracking and idempotency.
+
+#### Timestamp
+
+The Unix timestamp (in milliseconds) when a request is made, passed in the `x-timestamp` header. Used as part of the HMAC signature generation.
+
+---
+
+## Blockchain Terms
+
+#### Wallet Address
+
+A unique cryptographic address on a blockchain where cryptocurrency can be received. Each agent has wallet addresses for supported chains.
+
+#### Confirmation
+
+The number of blocks added to the blockchain after a transaction is included. More confirmations mean higher security and finality.
+
+#### Gas Fee
+
+The transaction fee paid to blockchain validators/miners for processing a transaction. Gas fees vary by network and congestion.
+
+#### Testnet
+
+A parallel blockchain network used for testing without using real cryptocurrency. Useful for development and integration testing.
+
+#### Mainnet
+
+The primary blockchain network where real transactions with actual value occur. Used in production environments.

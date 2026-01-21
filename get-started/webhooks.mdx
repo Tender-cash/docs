@@ -1,0 +1,115 @@
+---
+title: "Webhooks"
+description: "Receive real-time notifications about events in your Tender account"
+---
+
+Webhooks (or callbacks) let you automatically receive asynchronous events from Tender when important events happen — like when a payment status changes or a transaction gets completed.
+
+## Register your webhook URLs
+
+Webhooks are currently registered when you call APIs via the `callbackUrl` field.
+
+---
+
+## Webhook Structure
+
+All webhooks have the same payload structure.
+
+- `event`: the name of the event
+- `data`: event data specific to the event being sent
+
+Example webhook payload:
+
+```json
+{
+  "event": "transaction_completed",
+  "data": {
+    "txId": "66aec7de809b7f45c42a49f9",
+    "type": "receive",
+    "chain": "ethereum",
+    "amount": "0.001",
+    "usdAmount": "2.50",
+    "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+    "agentId": "6538eaaebdec6d1a21978e6a",
+    "merchantId": "6538e8f9bdec6d1a21978a64",
+    "status": "completed",
+    "createdAt": "2025-01-21T12:30:00.000Z",
+    "completedAt": "2025-01-21T12:34:56.789Z"
+  }
+}
+```
+
+---
+
+## Webhook Retries
+
+Always acknowledge a webhook instantly by responding with `2xx`, else it will be considered as failed. Failed webhooks are retried with constant backoff for a maximum of 3 times with a delay of 1 minute.
+
+---
+
+## Webhook Security
+
+To ensure you are receiving webhooks from Tender, you can define custom headers that will be included with every webhook request. These headers allow you to verify that the webhook is originating from Tender and not from a malicious source.
+
+### Setting Custom Headers
+
+When registering a webhook via the API, you can specify custom headers that Tender will include in all webhook requests:
+
+```javascript
+const response = await fetch('https://api.tender.cash/v1/api/webhook', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-access-id': accessId,
+    'x-request-id': requestId,
+    'x-timestamp': timestamp,
+    'authorization': signature
+  },
+  body: JSON.stringify({
+    url: 'https://your-domain.com/webhooks/tender',
+    description: 'Production webhook',
+    eventTypes: ['transaction_completed', 'transaction_failed'],
+    headers: {
+      'X-Webhook-Secret': 'your-secret-key-here',
+      'X-Api-Version': 'v1'
+    }
+  })
+});
+```
+
+### Verifying Custom Headers
+
+On your webhook endpoint, verify the custom headers to ensure the request is from Tender:
+
+```javascript
+const express = require('express');
+const app = express();
+
+const WEBHOOK_SECRET = 'your-secret-key-here'; // Same as defined in webhook registration
+
+app.post('/webhooks/tender', express.json(), (req, res) => {
+  // Verify the custom header
+  const webhookSecret = req.headers['x-webhook-secret'];
+  
+  if (webhookSecret !== WEBHOOK_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  
+  // Process the webhook
+  const { event, data } = req.body;
+  console.log('Verified webhook:', event);
+  
+  // Acknowledge receipt
+  res.status(200).json({ received: true });
+});
+
+app.listen(3000);
+```
+
+### Best Practices
+
+- Use strong, randomly generated values for your custom headers
+- Keep your custom header values secret and secure
+- Rotate your webhook secrets periodically
+- Always validate the custom headers before processing webhook data
+- Consider using multiple headers for additional security layers

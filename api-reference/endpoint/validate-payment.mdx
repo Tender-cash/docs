@@ -1,0 +1,152 @@
+---
+title: 'Validate Payment'
+description: 'Validate a payment transaction by ID'
+mode: 'api'
+api: 'POST /v1/api/payment/validate/{id}'
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  Transaction ID to validate
+  
+  **Example:** `"6475140f90e4c515f231fcea"`
+</ParamField>
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"payment received"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  The validated payment transaction details
+  
+  <Expandable title="data properties">
+    <ResponseField name="_id" type="string">
+      Unique MongoDB identifier for the transaction
+      
+      **Example:** `"6475140f90e4c515f231fcea"`
+    </ResponseField>
+    
+    <ResponseField name="type" type="string">
+      Transaction type
+      
+      **Example:** `"receive"`
+    </ResponseField>
+    
+    <ResponseField name="chain" type="string">
+      Blockchain network used
+      
+      **Example:** `"ethereum"`
+    </ResponseField>
+    
+    <ResponseField name="currency" type="string">
+      Currency identifier
+      
+      **Example:** `"6454b021cf6b3b771926792e"`
+    </ResponseField>
+    
+    <ResponseField name="walletAddress" type="string">
+      Wallet address involved in the transaction
+      
+      **Example:** `"0xC6FF2283472C0403a178D8E565D50588DefAc85B"`
+    </ResponseField>
+    
+    <ResponseField name="amount" type="string">
+      Transaction amount in cryptocurrency
+      
+      **Example:** `"0.0001"`
+    </ResponseField>
+    
+    <ResponseField name="usdAmount" type="string">
+      Transaction amount in USD
+      
+      **Example:** `"0.1893"`
+    </ResponseField>
+    
+    <ResponseField name="fee" type="string">
+      Transaction fee
+      
+      **Example:** `"0"`
+    </ResponseField>
+    
+    <ResponseField name="agentId" type="string">
+      Agent ID associated with the transaction
+      
+      **Example:** `"6473034c48441d031ed5f299"`
+    </ResponseField>
+    
+    <ResponseField name="merchantId" type="string">
+      Merchant ID associated with the transaction
+      
+      **Example:** `"647302dea2f273c67b878a66"`
+    </ResponseField>
+    
+    <ResponseField name="status" type="string">
+      Current status of the transaction
+      
+      **Example:** `"pending"`
+    </ResponseField>
+    
+    <ResponseField name="txId" type="string">
+      Unique transaction identifier
+      
+      **Example:** `"6475140f90e4c515f231fcea"`
+    </ResponseField>
+    
+    <ResponseField name="createdAt" type="string">
+      ISO 8601 timestamp when the transaction was created
+      
+      **Example:** `"2023-05-29T21:07:27.509Z"`
+    </ResponseField>
+    
+    <ResponseField name="updatedAt" type="string">
+      ISO 8601 timestamp when the transaction was last updated
+      
+      **Example:** `"2023-05-29T21:07:27.509Z"`
+    </ResponseField>
+    
+    <ResponseField name="__v" type="number">
+      Version key for MongoDB document
+      
+      **Example:** `0`
+    </ResponseField>
+  </Expandable>
+</ResponseField>

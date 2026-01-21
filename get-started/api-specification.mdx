@@ -1,0 +1,46 @@
+---
+title: "OpenAPI Specification"
+---
+
+## Tender API Specification (1.0.0)
+
+Prefer to use OpenAPI tooling? You can access our full OpenAPI spec directly or import it to Postman, Insomnia, or other API clients:
+
+<Card
+  title="Download OpenAPI JSON"
+  icon="download"
+  href="/api-reference/openapi.json"
+>
+  Get the complete OpenAPI 3.1.0 specification for Tender API
+</Card>
+
+### What You Can Do With the OpenAPI Spec
+
+- **Import to Postman or Insomnia** - Generate a complete API collection with all endpoints
+- **Generate API Clients** - Use tools like OpenAPI Generator to create SDK code
+- **API Testing** - Automate testing with tools that support OpenAPI specs
+- **Documentation** - Generate custom documentation using Swagger UI or similar tools
+- **Validation** - Validate request/response payloads against the schema
+
+### Using with Postman
+
+1. Open Postman
+2. Click **Import** in the top left
+3. Choose **Link** and paste: `https://docs.tender.cash/api-reference/openapi.json`
+4. Click **Continue** and then **Import**
+5. Your Tender API collection is ready to use!
+
+### Using with OpenAPI Generator
+
+Generate client libraries in your preferred language:
+
+```bash
+# Install OpenAPI Generator
+npm install @openapitools/openapi-generator-cli -g
+
+# Generate a Node.js client
+openapi-generator-cli generate \
+  -i https://docs.tender.cash/api-reference/openapi.json \
+  -g javascript \
+  -o ./tender-client
+```

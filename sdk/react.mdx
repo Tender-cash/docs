@@ -1,0 +1,399 @@
+---
+title: "React SDK"
+description: "Integrate Tender cryptocurrency payments in your React application"
+---
+
+## Overview
+
+The Tender React SDK provides a simple component library for integrating the Tender Cash payment flow into your React application. The SDK uses Shadow DOM for style isolation and provides a seamless payment experience.
+
+<Card
+  title="@tender-cash/agent-sdk-react"
+  icon="react"
+  href="https://www.npmjs.com/package/@tender-cash/agent-sdk-react"
+>
+  View package on npm
+</Card>
+
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @tender-cash/agent-sdk-react
+```
+
+```bash yarn
+yarn add @tender-cash/agent-sdk-react
+```
+
+```bash pnpm
+pnpm add @tender-cash/agent-sdk-react
+```
+
+</CodeGroup>
+
+---
+
+## Usage
+
+Pass all payment parameters directly as props. The modal will automatically open when the component mounts with the required payment parameters.
+
+```jsx
+import { TenderAgentSdk, onFinishResponse } from '@tender-cash/agent-sdk-react';
+
+function PaymentComponent() {
+  const handleEventResponse = (response: onFinishResponse) => {
+    console.log('SDK Response:', response);
+    // Handle success, partial payment, overpayment, error based on response.status
+  };
+
+  return (
+    <TenderAgentSdk
+      accessId="YOUR_ACCESS_ID"
+      fiatCurrency="USD"
+      env="test"
+      onEventResponse={handleEventResponse}
+      amount={150.00}
+      referenceId="unique-payment-reference-123"
+      paymentExpirySeconds={1800}
+    />
+  );
+}
+
+export default PaymentComponent;
+```
+
+<Info>
+  The modal opens automatically on component mount when `referenceId` and `amount` are provided as props.
+</Info>
+
+---
+
+## API Reference
+
+### Component Props (`TenderAgentProps`)
+
+The `TenderAgentSdk` component accepts the following props:
+
+#### Required Props
+
+| Prop           | Type                                | Description                                                                                                                                                 |
+| -------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fiatCurrency` | `string`                            | The fiat currency code (e.g., "USD", "EUR").                                                                                                                |
+| `accessId`     | `string`                            | Your Tender Cash merchant Access ID.                                                                                                                        |
+| `env`          | `"test"` \| `"live"` \| `"local"`  | The environment to use (`"test"` for testing, `"live"` for production, `"local"` for local development).                                                   |
+
+#### Optional Props
+
+| Prop                    | Type                               | Description                                                                       |
+| ----------------------- | ---------------------------------- | --------------------------------------------------------------------------------- |
+| `onEventResponse`       | `(data: onFinishResponse) => void` | Callback function triggered on payment completion or status change.               |
+| `referenceId`           | `string`                           | Payment reference ID. Required to auto-open the modal.                            |
+| `amount`                | `number`                           | Payment amount in fiat currency. Required to auto-open the modal.                 |
+| `paymentExpirySeconds`  | `number`                           | Payment expiry time in seconds. Optional, defaults to 30 minutes.                 |
+| `theme`                 | `"light"` \| `"dark"`             | Theme for the payment modal. Optional, defaults to "light".                       |
+
+<Note>
+  When `referenceId` and `amount` are provided as props, the modal will automatically open on component mount.
+</Note>
+
+---
+
+## Using Ref to Control Modal
+
+You can use a ref to programmatically control the modal from outside the widget:
+
+```jsx
+import { useRef } from 'react';
+import { TenderAgentSdk, TenderAgentRef } from '@tender-cash/agent-sdk-react';
+
+function PaymentComponent() {
+  const tenderRef = useRef<TenderAgentRef>(null);
+
+  const handleOpenPayment = () => {
+    tenderRef.current?.initiatePayment({
+      amount: 150.00,
+      referenceId: "unique-payment-reference-123",
+      paymentExpirySeconds: 1800
+    });
+  };
+
+  const handleCloseModal = () => {
+    // Close the modal programmatically from outside the widget
+    tenderRef.current?.closeModal();
+  };
+
+  return (
+    <>
+      <button onClick={handleOpenPayment}>Open Payment</button>
+      <button onClick={handleCloseModal}>Close Modal</button>
+      
+      <TenderAgentSdk
+        ref={tenderRef}
+        accessId="YOUR_ACCESS_ID"
+        fiatCurrency="USD"
+        env="test"
+        onEventResponse={(response) => console.log(response)}
+        amount={150.00}
+        referenceId="unique-payment-reference-123"
+        paymentExpirySeconds={1800}
+      />
+    </>
+  );
+}
+```
+
+### Ref Methods (`TenderAgentRef`)
+
+| Method            | Description                                                            |
+| ----------------- | ---------------------------------------------------------------------- |
+| `initiatePayment` | Opens the modal and initiates a payment with the provided parameters.  |
+| `dismiss`         | Closes the modal.                                                      |
+| `closeModal`      | Closes the modal - can be called from outside the widget.              |
+
+---
+
+## Callback Data (`onFinishResponse`)
+
+The `onEventResponse` callback receives an object with the following structure:
+
+```typescript
+interface onFinishResponse {
+  status: "partial-payment" | "completed" | "overpayment" | "pending" | "error" | "cancelled";
+  message: string;
+  data: IPaymentData | undefined; // Contains details like amountPaid, coin, address, etc.
+}
+
+interface IPaymentData {
+  id?: string;
+  amount?: number;
+  coinAmount?: number;
+  coin?: string;
+  chain?: string;
+  address?: string;
+  amountPaid?: string;
+  balance?: string;
+  status?: "partial-payment" | "completed" | "overpayment" | "pending" | "error" | "cancelled";
+}
+```
+
+### Handling Payment Status
+
+```jsx
+const handleEventResponse = (response: onFinishResponse) => {
+  switch (response.status) {
+    case 'completed':
+      console.log('Payment completed successfully!');
+      console.log('Transaction ID:', response.data?.id);
+      break;
+    case 'partial-payment':
+      console.log('Partial payment received');
+      console.log('Amount paid:', response.data?.amountPaid);
+      console.log('Balance:', response.data?.balance);
+      break;
+    case 'overpayment':
+      console.log('Overpayment received');
+      break;
+    case 'pending':
+      console.log('Payment is pending confirmation');
+      break;
+    case 'error':
+      console.error('Payment error:', response.message);
+      break;
+    case 'cancelled':
+      console.log('Payment was cancelled');
+      break;
+  }
+};
+```
+
+---
+
+## Features
+
+<AccordionGroup>
+  <Accordion title="Shadow DOM Isolation" icon="shield">
+    The component uses Shadow DOM to prevent CSS leaks and conflicts with your application styles.
+  </Accordion>
+  
+  <Accordion title="Auto-Open Modal" icon="window-maximize">
+    The modal automatically opens when payment parameters are provided, streamlining the payment flow.
+  </Accordion>
+  
+  <Accordion title="TypeScript Support" icon="code">
+    Full TypeScript definitions included for type safety and better developer experience.
+  </Accordion>
+  
+  <Accordion title="Responsive Design" icon="mobile">
+    Works seamlessly on desktop and mobile devices with adaptive layouts.
+  </Accordion>
+  
+  <Accordion title="Theme Customization" icon="palette">
+    Support for both light and dark themes to match your application design.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Complete Example
+
+Here's a complete example showing payment initiation and status handling:
+
+```jsx
+import { useState, useRef } from 'react';
+import { TenderAgentSdk, TenderAgentRef, onFinishResponse } from '@tender-cash/agent-sdk-react';
+
+function CheckoutPage() {
+  const [paymentStatus, setPaymentStatus] = useState<string>('');
+  const tenderRef = useRef<TenderAgentRef>(null);
+
+  const handlePayment = () => {
+    tenderRef.current?.initiatePayment({
+      amount: 150.00,
+      referenceId: `order-${Date.now()}`,
+      paymentExpirySeconds: 1800 // 30 minutes
+    });
+  };
+
+  const handleEventResponse = (response: onFinishResponse) => {
+    setPaymentStatus(response.status);
+    
+    if (response.status === 'completed') {
+      // Payment successful - update order status, show confirmation, etc.
+      console.log('Payment successful!', response.data);
+    } else if (response.status === 'partial-payment') {
+      // Handle partial payment
+      console.log('Partial payment received:', response.data?.amountPaid);
+    } else if (response.status === 'error') {
+      // Handle error
+      console.error('Payment failed:', response.message);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Checkout</h1>
+      <button onClick={handlePayment}>Pay $150.00</button>
+      
+      {paymentStatus && (
+        <p>Payment Status: {paymentStatus}</p>
+      )}
+      
+      <TenderAgentSdk
+        ref={tenderRef}
+        accessId={process.env.REACT_APP_TENDER_ACCESS_ID}
+        fiatCurrency="USD"
+        env="test"
+        onEventResponse={handleEventResponse}
+        theme="light"
+      />
+    </div>
+  );
+}
+
+export default CheckoutPage;
+```
+
+---
+
+## Environment Setup
+
+<Tabs>
+  <Tab title="Test Environment">
+    Use test environment for development and testing:
+    
+    ```jsx
+    <TenderAgentSdk
+      accessId="YOUR_TEST_ACCESS_ID"
+      env="test"
+      // ... other props
+    />
+    ```
+    
+    Test environment uses testnet cryptocurrencies and doesn't process real transactions.
+  </Tab>
+  
+  <Tab title="Production Environment">
+    Use live environment for production:
+    
+    ```jsx
+    <TenderAgentSdk
+      accessId="YOUR_LIVE_ACCESS_ID"
+      env="live"
+      // ... other props
+    />
+    ```
+    
+    <Warning>
+      Only use live environment with production access credentials and after thorough testing.
+    </Warning>
+  </Tab>
+</Tabs>
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Secure Credentials" icon="lock">
+    - Store Access ID in environment variables
+    - Never commit credentials to version control
+    - Use different credentials for test and production
+  </Accordion>
+  
+  <Accordion title="Reference IDs" icon="fingerprint">
+    - Use unique reference IDs for each payment
+    - Include order/transaction identifiers
+    - Store reference IDs in your database for reconciliation
+  </Accordion>
+  
+  <Accordion title="Error Handling" icon="triangle-exclamation">
+    - Always implement `onEventResponse` callback
+    - Handle all possible status values
+    - Log errors for debugging and monitoring
+  </Accordion>
+  
+  <Accordion title="Payment Expiry" icon="clock">
+    - Set reasonable expiry times (default: 30 minutes)
+    - Inform users about expiry duration
+    - Handle expired payments gracefully
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Explore the full API documentation
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/get-started/webhooks"
+  >
+    Set up webhook notifications
+  </Card>
+  <Card
+    title="GitHub Repository"
+    icon="github"
+    href="https://github.com/Tender-cash/agent-sdk-react"
+  >
+    View source code and contribute
+  </Card>
+  <Card
+    title="Support"
+    icon="envelope"
+    href="mailto:support@tender.cash"
+  >
+    Contact our support team
+  </Card>
+</CardGroup>

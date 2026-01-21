@@ -1,0 +1,196 @@
+---
+title: 'Initiate Payment By Currency'
+description: 'Create a payment transaction for a specific currency'
+mode: 'api'
+api: 'POST /v1/api/payment/initiate/{currency}'
+---
+
+## Path Parameters
+
+<ParamField path="currency" type="string" required>
+  Currency code for the payment
+  
+  **Example:** `"ngn"`
+</ParamField>
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+<ParamField header="Content-Type" type="string" required>
+  Media type of the request body
+  
+  **Example:** `"application/json"`
+</ParamField>
+
+## Body
+
+<ParamField body="amount" type="string" required>
+  Payment amount in the specified currency
+  
+  **Example:** `"1.023"`
+</ParamField>
+
+<ParamField body="chain" type="string" required>
+  Blockchain network to use for the transaction
+  
+  **Example:** `"avalanche"`
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Cryptocurrency for the payment
+  
+  **Example:** `"avalanche"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  The initiated payment transaction details
+  
+  <Expandable title="data properties">
+    <ResponseField name="type" type="string">
+      Transaction type
+      
+      **Example:** `"receive"`
+    </ResponseField>
+    
+    <ResponseField name="chain" type="string">
+      Blockchain network used
+      
+      **Example:** `"avalanche"`
+    </ResponseField>
+    
+    <ResponseField name="chainId" type="string">
+      Internal chain identifier
+      
+      **Example:** `"64f782bb4278fc475eb30e29"`
+    </ResponseField>
+    
+    <ResponseField name="walletAddress" type="string">
+      Destination wallet address for payment
+      
+      **Example:** `"0x40b95eddeeac0776ebefc3963bb9ba7d22cbd065"`
+    </ResponseField>
+    
+    <ResponseField name="amount" type="string">
+      Amount in cryptocurrency
+      
+      **Example:** `"0.023741"`
+    </ResponseField>
+    
+    <ResponseField name="usdAmount" type="string">
+      Equivalent amount in USD
+      
+      **Example:** `"1.02"`
+    </ResponseField>
+    
+    <ResponseField name="coinAmount" type="string">
+      Amount in the specified cryptocurrency
+      
+      **Example:** `"0.023741"`
+    </ResponseField>
+    
+    <ResponseField name="fee" type="number">
+      Transaction fee in cryptocurrency
+      
+      **Example:** `0.00023741007194244602`
+    </ResponseField>
+    
+    <ResponseField name="feeUSD" type="number">
+      Transaction fee in USD
+      
+      **Example:** `0.0102`
+    </ResponseField>
+    
+    <ResponseField name="feeSent" type="boolean">
+      Whether the fee has been sent
+      
+      **Example:** `false`
+    </ResponseField>
+    
+    <ResponseField name="rate" type="number">
+      Exchange rate used for conversion
+      
+      **Example:** `43.09`
+    </ResponseField>
+    
+    <ResponseField name="agentId" type="string">
+      Agent receiving the payment
+      
+      **Example:** `"6538eaaebdec6d1a21978e6a"`
+    </ResponseField>
+    
+    <ResponseField name="merchantId" type="string">
+      Merchant ID associated with the transaction
+      
+      **Example:** `"6538e8f9bdec6d1a21978a64"`
+    </ResponseField>
+    
+    <ResponseField name="currency" type="string">
+      Currency identifier
+      
+      **Example:** `"64fc4cda43812c15552311d7"`
+    </ResponseField>
+    
+    <ResponseField name="agentAmount" type="string">
+      Amount in agent's local currency
+      
+      **Example:** `"1.023"`
+    </ResponseField>
+    
+    <ResponseField name="agentRate" type="string">
+      Exchange rate for agent's currency
+      
+      **Example:** `"1"`
+    </ResponseField>
+    
+    <ResponseField name="agentCurrency" type="string">
+      Agent's local currency code
+      
+      **Example:** `"usd"`
+    </ResponseField>
+    
+    <ResponseField name="txId" type="string">
+      Unique transaction identifier
+      
+      **Example:** `"66aec7de809b7f45c42a49f9"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>

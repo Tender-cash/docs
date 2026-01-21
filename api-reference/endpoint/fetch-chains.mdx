@@ -1,0 +1,168 @@
+---
+title: 'Fetch Allowed Chains'
+description: 'Retrieve all supported blockchain networks and their configuration'
+mode: 'api'
+api: 'GET /v1/api/system/chains'
+---
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  Container object for chains list and pagination data
+  
+  <Expandable title="data properties">
+    <ResponseField name="data" type="array">
+      Array of supported blockchain networks
+      
+      <Expandable title="chain object">
+        <ResponseField name="_id" type="string">
+          Unique MongoDB identifier for the chain
+          
+          **Example:** `"665b2e76a75613dfb16bc5e9"`
+        </ResponseField>
+        
+        <ResponseField name="name" type="string">
+          Display name of the blockchain
+          
+          **Example:** `"Aptos"`
+        </ResponseField>
+        
+        <ResponseField name="icon" type="string">
+          URL to the chain's icon image
+          
+          **Example:** `"https://devapi.tender.cash/icons/aptos.png"`
+        </ResponseField>
+        
+        <ResponseField name="id" type="string">
+          Unique identifier for the chain
+          
+          **Example:** `"aptos"`
+        </ResponseField>
+        
+        <ResponseField name="coin" type="string">
+          Native coin symbol
+          
+          **Example:** `"aptos"`
+        </ResponseField>
+        
+        <ResponseField name="chainType" type="string">
+          Type of blockchain (e.g., evm, aptos, btc, tron)
+          
+          **Example:** `"aptos"`
+        </ResponseField>
+        
+        <ResponseField name="explorer" type="string">
+          Block explorer URL
+          
+          **Example:** `"https://testnet.snowtrace.io/tx/"`
+        </ResponseField>
+        
+        <ResponseField name="status" type="string">
+          Current status of the chain
+          
+          **Example:** `"active"`
+        </ResponseField>
+        
+        <ResponseField name="rpcUrl" type="string">
+          RPC endpoint URL for the chain
+          
+          **Example:** `"https://fullnode.testnet.aptoslabs.com/v1"`
+        </ResponseField>
+        
+        <ResponseField name="allowPreFunded" type="boolean">
+          Whether pre-funded wallets are allowed
+          
+          **Example:** `true`
+        </ResponseField>
+        
+        <ResponseField name="subChains" type="array">
+          Array of sub-chains if applicable
+          
+          **Example:** `[]`
+        </ResponseField>
+        
+        <ResponseField name="isMultiChain" type="boolean">
+          Whether this is a multi-chain configuration
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="cType" type="string">
+          Configuration type
+          
+          **Example:** `"chain"`
+        </ResponseField>
+        
+        <ResponseField name="createdAt" type="string">
+          ISO 8601 timestamp when the chain was added
+          
+          **Example:** `"2024-06-01T14:21:42.308Z"`
+        </ResponseField>
+        
+        <ResponseField name="updatedAt" type="string">
+          ISO 8601 timestamp when the chain was last updated
+          
+          **Example:** `"2024-08-03T23:02:45.315Z"`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="pages" type="number">
+      Total number of pages available
+      
+      **Example:** `1`
+    </ResponseField>
+    
+    <ResponseField name="page" type="number">
+      Current page number
+      
+      **Example:** `1`
+    </ResponseField>
+    
+    <ResponseField name="limit" type="number">
+      Number of items per page
+      
+      **Example:** `40`
+    </ResponseField>
+  </Expandable>
+</ResponseField>

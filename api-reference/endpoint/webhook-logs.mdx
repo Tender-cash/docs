@@ -1,0 +1,122 @@
+---
+title: 'Get Webhook Logs'
+description: 'Retrieve paginated webhook delivery logs'
+mode: 'api'
+api: 'GET /v1/api/webhook/logs'
+---
+
+## Headers
+
+<ParamField header="authorization" type="string" required>
+  SHA-512 HMAC signature of the request payload using the API secret
+  
+  **Minimum string length:** `1`
+  
+  **Example:** `"5e73d044c44d733fcf819ad3409aaaddca840d421b69cb0b04e2c750fc62e-ce7526d36296237663ad1f06f62a730c0466516507196b3ce6567493c-c52a7cf63d"`
+</ParamField>
+
+<ParamField header="x-timestamp" type="string" required>
+  UNIX timestamp when the request was created (in seconds)
+  
+  **Example:** `"1712336881"`
+</ParamField>
+
+<ParamField header="x-request-id" type="string" required>
+  Unique identifier for the request (UUID v4)
+  
+  **Example:** `"550e8400-e29b-41d4-a716-446655440000"`
+</ParamField>
+
+<ParamField header="x-access-id" type="string" required>
+  Your API access ID provided by Tender
+  
+  **Example:** `"your-access-id-here"`
+</ParamField>
+
+## Response
+
+<ResponseField name="status" type="string" required>
+  Status of the API request
+  
+  **Example:** `"success"`
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable message describing the result
+  
+  **Example:** `"Webhook logs fetched"`
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  Webhook delivery logs and pagination data
+  
+  <Expandable title="data properties">
+    <ResponseField name="webhookLogs" type="array">
+      Array of webhook delivery log entries
+      
+      <Expandable title="log entry object">
+        <ResponseField name="_id" type="string">
+          Unique identifier for the log entry
+          
+          **Example:** `"691069ff947a702cfad9e862"`
+        </ResponseField>
+        
+        <ResponseField name="webhookId" type="string">
+          ID of the webhook that was triggered
+          
+          **Example:** `"691069ff947a702cfad9e861"`
+        </ResponseField>
+        
+        <ResponseField name="eventType" type="string">
+          Type of event that triggered the webhook
+          
+          **Example:** `"transaction_completed"`
+        </ResponseField>
+        
+        <ResponseField name="status" type="string">
+          Delivery status (success, failed, pending)
+          
+          **Example:** `"success"`
+        </ResponseField>
+        
+        <ResponseField name="statusCode" type="number">
+          HTTP status code from webhook endpoint
+          
+          **Example:** `200`
+        </ResponseField>
+        
+        <ResponseField name="payload" type="object">
+          Data sent to the webhook endpoint
+        </ResponseField>
+        
+        <ResponseField name="response" type="string">
+          Response received from the webhook endpoint
+        </ResponseField>
+        
+        <ResponseField name="attempts" type="number">
+          Number of delivery attempts
+          
+          **Example:** `1`
+        </ResponseField>
+        
+        <ResponseField name="createdAt" type="string">
+          ISO 8601 timestamp when the log entry was created
+          
+          **Example:** `"2025-11-09T10:20:00.000Z"`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="total" type="number">
+      Total number of log entries
+      
+      **Example:** `0`
+    </ResponseField>
+    
+    <ResponseField name="totalPages" type="number">
+      Total number of pages available
+      
+      **Example:** `0`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
