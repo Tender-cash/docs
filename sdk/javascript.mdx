@@ -1,15 +1,15 @@
 ---
-title: "React SDK"
-description: "Integrate Tender cryptocurrency payments in your React application"
+title: "JavaScript SDK"
+description: "Integrate Tender cryptocurrency payments in your JavaScript/React application"
 ---
 
 ## Overview
 
-The Tender React SDK provides a simple component library for integrating the Tender Cash payment flow into your React application. The SDK uses Shadow DOM for style isolation and provides a seamless payment experience.
+The Tender JavaScript SDK provides a simple component library for integrating the Tender Cash payment flow into your JavaScript and React applications. The SDK uses Shadow DOM for style isolation and provides a seamless payment experience.
 
 <Card
   title="@tender-cash/agent-sdk-react"
-  icon="react"
+  icon="js"
   href="https://www.npmjs.com/package/@tender-cash/agent-sdk-react"
 >
   View package on npm
@@ -37,7 +37,7 @@ pnpm add @tender-cash/agent-sdk-react
 
 ---
 
-## Usage
+## Usage in React
 
 Pass all payment parameters directly as props. The modal will automatically open when the component mounts with the required payment parameters.
 
@@ -233,6 +233,10 @@ const handleEventResponse = (response: onFinishResponse) => {
   
   <Accordion title="Theme Customization" icon="palette">
     Support for both light and dark themes to match your application design.
+  </Accordion>
+  
+  <Accordion title="Framework Agnostic" icon="cube">
+    While optimized for React, the SDK can be used with any JavaScript framework or vanilla JS.
   </Accordion>
 </AccordionGroup>
 

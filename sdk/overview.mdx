@@ -1,59 +1,56 @@
 ---
 title: "Introduction"
-description: "Official Tender SDKs for popular frameworks"
+description: "Official Tender SDK for JavaScript applications"
 ---
 
 ## Overview
 
-Tender provides official SDKs to help you integrate cryptocurrency payments into your applications quickly and easily. Our SDKs handle authentication, request signing, and provide framework-specific patterns for common tasks.
+Tender provides an official JavaScript SDK to help you integrate cryptocurrency payments into your applications quickly and easily. The SDK handles authentication, request signing, and provides a seamless payment experience with Shadow DOM isolation.
 
 ---
 
-## Available SDKs
+## Available SDK
 
-<CardGroup cols={2}>
-  <Card
-    title="React SDK"
-    icon="react"
-    href="/sdk/react"
-  >
-    Hooks and components for React applications
-  </Card>
-  <Card
-    title="Vue SDK"
-    icon="vuejs"
-    href="/sdk/vue"
-  >
-    Composables and plugins for Vue 3 applications
-  </Card>
-</CardGroup>
+<Card
+  title="JavaScript SDK"
+  icon="js"
+  href="/sdk/javascript"
+>
+  Components and utilities for JavaScript and React applications
+</Card>
 
 ---
 
 ## Features
 
-All Tender SDKs include:
+The Tender JavaScript SDK includes:
 
-- **Authentication Management** - Automatic HMAC-SHA256 signature generation
-- **Type Safety** - Full TypeScript support with type definitions
+- **Shadow DOM Isolation** - Prevents CSS conflicts with your application styles
+- **TypeScript Support** - Full TypeScript definitions for type safety
 - **Error Handling** - Comprehensive error handling with detailed messages
 - **Loading States** - Built-in loading state management
-- **Framework Integration** - Native patterns for each framework (hooks, composables, etc.)
+- **Theme Customization** - Support for light and dark themes
+- **Auto-Open Modal** - Streamlined payment flow with automatic modal opening
+- **Framework Agnostic** - Works with React, Vue, Angular, or vanilla JavaScript
+- **Responsive Design** - Optimized for both desktop and mobile devices
 
 ---
 
-## Quick Comparison
+## Key Features
 
-| Feature                | React SDK | Vue SDK |
-| ---------------------- | --------- | ------- |
-| Authentication         | ✅        | ✅      |
-| TypeScript Support     | ✅        | ✅      |
-| Agent Management       | ✅        | ✅      |
-| Payment Initiation     | ✅        | ✅      |
-| Payment Validation     | ✅        | ✅      |
-| Blockchain Data        | ✅        | ✅      |
-| Loading States         | ✅        | ✅      |
-| Error Handling         | ✅        | ✅      |
+| Feature                | JavaScript SDK |
+| ---------------------- | -------------- |
+| TypeScript Support     | ✅             |
+| Payment Initiation     | ✅             |
+| Payment Validation     | ✅             |
+| Blockchain Selection   | ✅             |
+| Loading States         | ✅             |
+| Error Handling         | ✅             |
+| Theme Support          | ✅             |
+| Shadow DOM             | ✅             |
+| Mobile Responsive      | ✅             |
+| React Integration      | ✅             |
+| Vanilla JS Support     | ✅             |
 
 ---
 
@@ -70,19 +67,17 @@ We're working on SDKs for additional platforms:
 
 ## Installation
 
-<Tabs>
-  <Tab title="React">
-    ```bash
-    npm install @tender-cash/agent-sdk-react
-    ```
-  </Tab>
-  
-  <Tab title="Vue">
-    ```bash
-    npm install @tender-cash/agent-sdk-vue
-    ```
-  </Tab>
-</Tabs>
+```bash npm
+npm install @tender-cash/agent-sdk-react
+```
+
+```bash yarn
+yarn add @tender-cash/agent-sdk-react
+```
+
+```bash pnpm
+pnpm add @tender-cash/agent-sdk-react
+```
 
 ---
 

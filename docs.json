@@ -81,8 +81,7 @@
             "group": "SDKs & Libraries",
             "pages": [
               "sdk/overview",
-              "sdk/react",
-              "sdk/vue"
+              "sdk/javascript"
             ]
           }
         ]
