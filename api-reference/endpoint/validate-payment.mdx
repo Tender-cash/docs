@@ -77,16 +77,190 @@ api: 'POST /v1/api/payment/validate/{id}'
       **Example:** `"ethereum"`
     </ResponseField>
     
-    <ResponseField name="currency" type="string">
-      Currency identifier
+    <ResponseField name="chainId" type="object">
+      Detailed blockchain network information
       
-      **Example:** `"6454b021cf6b3b771926792e"`
+      <Expandable title="chainId properties">
+        <ResponseField name="_id" type="string">
+          Chain MongoDB ID
+          
+          **Example:** `"64f782bb4278fc475eb30e29"`
+        </ResponseField>
+        
+        <ResponseField name="name" type="string">
+          Chain display name
+          
+          **Example:** `"Ethereum"`
+        </ResponseField>
+        
+        <ResponseField name="icon" type="string">
+          Chain icon URL
+          
+          **Example:** `"https://example.com/ethereum.png"`
+        </ResponseField>
+        
+        <ResponseField name="id" type="string">
+          Chain identifier
+          
+          **Example:** `"ethereum"`
+        </ResponseField>
+        
+        <ResponseField name="coin" type="string">
+          Native coin symbol
+          
+          **Example:** `"ETH"`
+        </ResponseField>
+        
+        <ResponseField name="status" type="string">
+          Chain status
+          
+          **Example:** `"active"`
+        </ResponseField>
+        
+        <ResponseField name="explorer" type="string">
+          Blockchain explorer URL
+          
+          **Example:** `"https://etherscan.io"`
+        </ResponseField>
+        
+        <ResponseField name="chainType" type="string">
+          Type of blockchain
+          
+          **Example:** `"evm"`
+        </ResponseField>
+        
+        <ResponseField name="allowPreFunded" type="boolean">
+          Whether pre-funded wallets are allowed
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="isMultiChain" type="boolean">
+          Whether this supports multiple chains
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="rpcUrl" type="string">
+          RPC endpoint URL
+          
+          **Example:** `"https://eth-mainnet.g.alchemy.com/v2/..."`
+        </ResponseField>
+        
+        <ResponseField name="cType" type="string">
+          Chain category type
+          
+          **Example:** `"blockchain"`
+        </ResponseField>
+        
+        <ResponseField name="createdAt" type="string">
+          ISO 8601 timestamp
+          
+          **Example:** `"2023-05-29T21:07:27.509Z"`
+        </ResponseField>
+        
+        <ResponseField name="updatedAt" type="string">
+          ISO 8601 timestamp
+          
+          **Example:** `"2023-05-29T21:07:27.509Z"`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="currency" type="object">
+      Detailed currency information
+      
+      <Expandable title="currency properties">
+        <ResponseField name="_id" type="string">
+          Currency MongoDB ID
+          
+          **Example:** `"6454b021cf6b3b771926792e"`
+        </ResponseField>
+        
+        <ResponseField name="id" type="string">
+          Currency identifier
+          
+          **Example:** `"usdt"`
+        </ResponseField>
+        
+        <ResponseField name="name" type="string">
+          Currency full name
+          
+          **Example:** `"Tether USD"`
+        </ResponseField>
+        
+        <ResponseField name="icon" type="string">
+          Currency icon URL
+          
+          **Example:** `"https://example.com/usdt.png"`
+        </ResponseField>
+        
+        <ResponseField name="isContract" type="boolean">
+          Whether this is a smart contract token
+          
+          **Example:** `true`
+        </ResponseField>
+        
+        <ResponseField name="chains" type="array">
+          Supported blockchain networks
+          
+          **Example:** `["ethereum", "bsc", "polygon"]`
+        </ResponseField>
+        
+        <ResponseField name="symbol" type="string">
+          Currency symbol
+          
+          **Example:** `"USDT"`
+        </ResponseField>
+        
+        <ResponseField name="priceTag" type="string">
+          Price tracking identifier
+          
+          **Example:** `"tether"`
+        </ResponseField>
+        
+        <ResponseField name="fee" type="string">
+          Transaction fee
+          
+          **Example:** `"0.001"`
+        </ResponseField>
+        
+        <ResponseField name="status" type="string">
+          Currency status
+          
+          **Example:** `"active"`
+        </ResponseField>
+        
+        <ResponseField name="type" type="string">
+          Currency type
+          
+          **Example:** `"token"`
+        </ResponseField>
+        
+        <ResponseField name="createdAt" type="string">
+          ISO 8601 timestamp
+          
+          **Example:** `"2023-05-29T21:07:27.509Z"`
+        </ResponseField>
+        
+        <ResponseField name="updatedAt" type="string">
+          ISO 8601 timestamp
+          
+          **Example:** `"2023-05-29T21:07:27.509Z"`
+        </ResponseField>
+      </Expandable>
     </ResponseField>
     
     <ResponseField name="walletAddress" type="string">
       Wallet address involved in the transaction
       
       **Example:** `"0xC6FF2283472C0403a178D8E565D50588DefAc85B"`
+    </ResponseField>
+    
+    <ResponseField name="walletAddressIndex" type="string">
+      Wallet address index
+      
+      **Example:** `"0"`
     </ResponseField>
     
     <ResponseField name="amount" type="string">
@@ -101,28 +275,346 @@ api: 'POST /v1/api/payment/validate/{id}'
       **Example:** `"0.1893"`
     </ResponseField>
     
+    <ResponseField name="coinAmount" type="string">
+      Amount in coin denomination
+      
+      **Example:** `"0.0001"`
+    </ResponseField>
+    
     <ResponseField name="fee" type="string">
       Transaction fee
       
       **Example:** `"0"`
     </ResponseField>
     
-    <ResponseField name="agentId" type="string">
-      Agent ID associated with the transaction
+    <ResponseField name="feeUSD" type="string">
+      Transaction fee in USD
       
-      **Example:** `"6473034c48441d031ed5f299"`
+      **Example:** `"0"`
     </ResponseField>
     
-    <ResponseField name="merchantId" type="string">
-      Merchant ID associated with the transaction
+    <ResponseField name="feeSent" type="boolean">
+      Whether the fee has been sent
       
-      **Example:** `"647302dea2f273c67b878a66"`
+      **Example:** `false`
+    </ResponseField>
+    
+    <ResponseField name="activationFee" type="string">
+      Wallet activation fee
+      
+      **Example:** `"0"`
+    </ResponseField>
+    
+    <ResponseField name="activationFeeUSD" type="string">
+      Wallet activation fee in USD
+      
+      **Example:** `"0"`
+    </ResponseField>
+    
+    <ResponseField name="rate" type="string">
+      Exchange rate used
+      
+      **Example:** `"1893"`
+    </ResponseField>
+    
+    <ResponseField name="agentId" type="object">
+      Agent details associated with the transaction
+      
+      <Expandable title="agentId properties">
+        <ResponseField name="_id" type="string">
+          Agent MongoDB ID
+          
+          **Example:** `"6473034c48441d031ed5f299"`
+        </ResponseField>
+        
+        <ResponseField name="firstName" type="string">
+          Agent first name
+          
+          **Example:** `"John"`
+        </ResponseField>
+        
+        <ResponseField name="lastName" type="string">
+          Agent last name
+          
+          **Example:** `"Doe"`
+        </ResponseField>
+        
+        <ResponseField name="email" type="string">
+          Agent email address
+          
+          **Example:** `"john@example.com"`
+        </ResponseField>
+        
+        <ResponseField name="avatar" type="string">
+          Agent avatar URL
+          
+          **Example:** `"https://example.com/avatar.jpg"`
+        </ResponseField>
+        
+        <ResponseField name="phoneNumber" type="string">
+          Agent phone number
+          
+          **Example:** `"+1234567890"`
+        </ResponseField>
+        
+        <ResponseField name="location" type="string">
+          Agent location
+          
+          **Example:** `"New York, USA"`
+        </ResponseField>
+        
+        <ResponseField name="totalSales" type="string">
+          Total sales amount
+          
+          **Example:** `"1500.50"`
+        </ResponseField>
+        
+        <ResponseField name="country" type="string">
+          Agent country
+          
+          **Example:** `"USA"`
+        </ResponseField>
+        
+        <ResponseField name="address" type="string">
+          Agent address
+          
+          **Example:** `"123 Main St"`
+        </ResponseField>
+        
+        <ResponseField name="active" type="boolean">
+          Whether agent is active
+          
+          **Example:** `true`
+        </ResponseField>
+        
+        <ResponseField name="agentId" type="string">
+          Agent unique identifier
+          
+          **Example:** `"AGT-001"`
+        </ResponseField>
+        
+        <ResponseField name="walletBalance" type="string">
+          Agent wallet balance
+          
+          **Example:** `"500.00"`
+        </ResponseField>
+        
+        <ResponseField name="merchantId" type="string">
+          Associated merchant ID
+          
+          **Example:** `"647302dea2f273c67b878a66"`
+        </ResponseField>
+        
+        <ResponseField name="defaultFiatCurrency" type="object">
+          Agent's default fiat currency settings
+          
+          <Expandable title="defaultFiatCurrency properties">
+            <ResponseField name="currency" type="string">
+              Currency code
+              
+              **Example:** `"USD"`
+            </ResponseField>
+            
+            <ResponseField name="rate" type="string">
+              Conversion rate
+              
+              **Example:** `"1"`
+            </ResponseField>
+            
+            <ResponseField name="useSystemRate" type="boolean">
+              Whether to use system rate
+              
+              **Example:** `true`
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="merchantId" type="object">
+      Merchant details associated with the transaction
+      
+      <Expandable title="merchantId properties">
+        <ResponseField name="_id" type="string">
+          Merchant MongoDB ID
+          
+          **Example:** `"647302dea2f273c67b878a66"`
+        </ResponseField>
+        
+        <ResponseField name="firstName" type="string">
+          Merchant first name
+          
+          **Example:** `"Jane"`
+        </ResponseField>
+        
+        <ResponseField name="lastName" type="string">
+          Merchant last name
+          
+          **Example:** `"Smith"`
+        </ResponseField>
+        
+        <ResponseField name="email" type="string">
+          Merchant email address
+          
+          **Example:** `"jane@example.com"`
+        </ResponseField>
+        
+        <ResponseField name="avatar" type="string">
+          Merchant avatar URL
+          
+          **Example:** `"https://example.com/merchant-avatar.jpg"`
+        </ResponseField>
+        
+        <ResponseField name="phoneNumber" type="string">
+          Merchant phone number
+          
+          **Example:** `"+1234567890"`
+        </ResponseField>
+        
+        <ResponseField name="active" type="boolean">
+          Whether merchant is active
+          
+          **Example:** `true`
+        </ResponseField>
+        
+        <ResponseField name="logo" type="string">
+          Merchant logo URL
+          
+          **Example:** `"https://example.com/logo.png"`
+        </ResponseField>
+        
+        <ResponseField name="merchantName" type="string">
+          Merchant business name
+          
+          **Example:** `"Example Store"`
+        </ResponseField>
+        
+        <ResponseField name="merchantDescription" type="string">
+          Merchant description
+          
+          **Example:** `"Online retail store"`
+        </ResponseField>
+        
+        <ResponseField name="twoFAStatus" type="boolean">
+          Two-factor authentication status
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="kycVerified" type="boolean">
+          KYC verification status
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="kycSubmitted" type="boolean">
+          KYC submission status
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="instantConvert" type="boolean">
+          Instant conversion enabled
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="defaultCurrency" type="string">
+          Default currency
+          
+          **Example:** `"USD"`
+        </ResponseField>
+        
+        <ResponseField name="walletBalance" type="string">
+          Merchant wallet balance
+          
+          **Example:** `"1000.00"`
+        </ResponseField>
+        
+        <ResponseField name="isDeleted" type="boolean">
+          Whether merchant is deleted
+          
+          **Example:** `false`
+        </ResponseField>
+        
+        <ResponseField name="walletRegenerated" type="boolean">
+          Whether wallet was regenerated
+          
+          **Example:** `false`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="fundTransferred" type="boolean">
+      Whether funds have been transferred
+      
+      **Example:** `false`
+    </ResponseField>
+    
+    <ResponseField name="contractAddress" type="string">
+      Smart contract address (for token transactions)
+      
+      **Example:** `""`
     </ResponseField>
     
     <ResponseField name="status" type="string">
       Current status of the transaction
       
-      **Example:** `"pending"`
+      **Example:** `"completed"`
+    </ResponseField>
+    
+    <ResponseField name="paymentBlacklisted" type="boolean">
+      Whether payment is blacklisted
+      
+      **Example:** `false`
+    </ResponseField>
+    
+    <ResponseField name="amountReceived" type="string">
+      Actual amount received
+      
+      **Example:** `"0.0001"`
+    </ResponseField>
+    
+    <ResponseField name="amountReceivedUSD" type="string">
+      Amount received in USD
+      
+      **Example:** `"0.1893"`
+    </ResponseField>
+    
+    <ResponseField name="balanceRequired" type="string">
+      Balance still required
+      
+      **Example:** `"0"`
+    </ResponseField>
+    
+    <ResponseField name="balanceRequiredUSD" type="string">
+      Balance required in USD
+      
+      **Example:** `"0"`
+    </ResponseField>
+    
+    <ResponseField name="isPartialPayment" type="boolean">
+      Whether this is a partial payment
+      
+      **Example:** `false`
+    </ResponseField>
+    
+    <ResponseField name="agentAmount" type="string">
+      Amount in agent's currency
+      
+      **Example:** `"0.1893"`
+    </ResponseField>
+    
+    <ResponseField name="amountReceivedAgent" type="string">
+      Amount received in agent's currency
+      
+      **Example:** `"0.1893"`
+    </ResponseField>
+    
+    <ResponseField name="balanceRequiredAgent" type="string">
+      Balance required in agent's currency
+      
+      **Example:** `"0"`
     </ResponseField>
     
     <ResponseField name="txId" type="string">
@@ -141,12 +633,6 @@ api: 'POST /v1/api/payment/validate/{id}'
       ISO 8601 timestamp when the transaction was last updated
       
       **Example:** `"2023-05-29T21:07:27.509Z"`
-    </ResponseField>
-    
-    <ResponseField name="__v" type="number">
-      Version key for MongoDB document
-      
-      **Example:** `0`
     </ResponseField>
   </Expandable>
 </ResponseField>
