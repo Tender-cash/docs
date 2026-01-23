@@ -7,7 +7,7 @@ openapi: 'POST /v1/api/agent/create'
 ## Headers
 
 <ParamField header="authorization" type="string" required>
-  SHA-512 HMAC signature of the request payload using the API secret
+  Base64-encoded HMAC-SHA256 signature of the request payload using the API secret
   
   **Minimum string length:** `1`
   
@@ -15,9 +15,9 @@ openapi: 'POST /v1/api/agent/create'
 </ParamField>
 
 <ParamField header="x-timestamp" type="string" required>
-  UNIX timestamp when the request was created (in seconds)
+  Current timestamp in ISO 8601 format
   
-  **Example:** `"1712336881"`
+  **Example:** `"2025-03-15T09:45:53.000Z"`
 </ParamField>
 
 <ParamField header="x-request-id" type="string" required>

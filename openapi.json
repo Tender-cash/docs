@@ -15,7 +15,7 @@
       "description": "Production Server"
     },
     {
-      "url": "https://devapi.tender.cash",
+      "url": "https://stagapi.tender.cash",
       "description": "Development Server"
     }
   ],
@@ -31,12 +31,74 @@
         "description": "Create a new agent (or sub-business) under a merchant",
         "operationId": "createAgent",
         "tags": ["Agents"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Media type of the request body",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateAgentRequest"
+              },
+              "example": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "johndoe@tender.cash",
+                "phoneNumber": "01234567890",
+                "location": "Lagos",
+                "address": "123 Main Street",
+                "country": "Nigeria"
               }
             }
           }
@@ -61,6 +123,49 @@
         "description": "List agents for the authenticated merchant",
         "operationId": "getAgents",
         "tags": ["Agents"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Agents retrieved successfully",
@@ -111,12 +216,72 @@
         "description": "Create a new payment transaction",
         "operationId": "initiatePayment",
         "tags": ["Transactions"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Media type of the request body",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/InitiatePaymentRequest"
+              },
+              "example": {
+                "agentId": "6538eaaebdec6d1a21978e6a",
+                "amount": "10.00",
+                "chain": "ethereum",
+                "coin": "usdc",
+                "reference": "ORDER-12345"
               }
             }
           }
@@ -137,19 +302,70 @@
     },
     "/v1/api/payment/initiate/{currency}": {
       "post": {
-        "summary": "Initiate Payment By Currency",
-        "description": "Create a new payment transaction for a specific currency",
-        "operationId": "initiatePaymentByCurrency",
+        "summary": "Initiate Payment By Fiat Currency",
+        "description": "Create a new payment transaction for a specific fiat currency",
+        "operationId": "initiatePaymentByFiatCurrency",
         "tags": ["Transactions"],
         "parameters": [
           {
             "name": "currency",
             "in": "path",
             "required": true,
-            "description": "Currency code (e.g., ngn, usd)",
+            "description": "Fiat currency code (e.g., ngn, usd)",
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Media type of the request body",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
           }
         ],
         "requestBody": {
@@ -157,7 +373,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/InitiatePaymentByCurrencyRequest"
+                "$ref": "#/components/schemas/InitiatePaymentByFiatCurrencyRequest"
+              },
+              "example": {
+                "amount": "100.00",
+                "chain": "ethereum",
+                "currency": "usdc"
               }
             }
           }
@@ -191,6 +412,47 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
           }
         ],
         "responses": {
@@ -213,6 +475,49 @@
         "description": "Get list of all supported blockchain networks",
         "operationId": "getAllowedChains",
         "tags": ["System"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Chains retrieved successfully",
@@ -242,6 +547,47 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
           }
         ],
         "responses": {
@@ -264,6 +610,49 @@
         "description": "Get all available currencies with their supported chains",
         "operationId": "getAllCurrencies",
         "tags": ["System"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Currencies retrieved successfully",
@@ -302,6 +691,47 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
           }
         ],
         "responses": {
@@ -334,12 +764,73 @@
         "description": "Register a new webhook endpoint",
         "operationId": "addWebhook",
         "tags": ["Webhooks"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "description": "Media type of the request body",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddWebhookRequest"
+              },
+              "example": {
+                "url": "https://example.com/webhook",
+                "description": "Transaction notifications",
+                "eventTypes": ["transaction_completed"],
+                "headers": {
+                  "api-key": "your-api-key"
+                }
               }
             }
           }
@@ -362,6 +853,49 @@
         "description": "Get all registered webhooks for the merchant",
         "operationId": "getWebhooks",
         "tags": ["Webhooks"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Webhooks retrieved successfully",
@@ -391,6 +925,47 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
           }
         ],
         "responses": {
@@ -429,6 +1004,49 @@
         "description": "Retrieve webhook delivery logs",
         "operationId": "getWebhookLogs",
         "tags": ["Webhooks"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Base64-encoded HMAC-SHA256 signature of the request payload using the API secret",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-timestamp",
+            "in": "header",
+            "required": true,
+            "description": "Current timestamp in ISO 8601 format",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-03-15T09:45:53.000Z"
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "description": "Unique identifier for the request (UUID v4)",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          {
+            "name": "x-access-id",
+            "in": "header",
+            "required": true,
+            "description": "Your API access ID provided by Tender",
+            "schema": {
+              "type": "string"
+            },
+            "example": "your-access-id-here"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Webhook logs retrieved successfully",
@@ -461,23 +1079,23 @@
           "firstName": {
             "type": "string",
             "description": "First name of the agent",
-            "example": "AgentPortable090102"
+            "example": "John"
           },
           "lastName": {
             "type": "string",
             "description": "Last name of the agent",
-            "example": "Last"
+            "example": "Doe"
           },
           "email": {
             "type": "string",
             "format": "email",
             "description": "Email address of the agent",
-            "example": "agent990990@sample.com"
+            "example": "johndoe@tender.cash"
           },
           "phoneNumber": {
             "type": "string",
             "description": "Phone number of the agent",
-            "example": "0123246784824"
+            "example": "01234567890"
           },
           "location": {
             "type": "string",
@@ -487,7 +1105,7 @@
           "address": {
             "type": "string",
             "description": "Full address of the agent",
-            "example": "Rest Adfdfs sdgjdskgds"
+            "example": "123 Main Street"
           },
           "country": {
             "type": "string",
@@ -642,16 +1260,21 @@
             "type": "string",
             "description": "Cryptocurrency coin",
             "example": "avalanche"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Optional reference or transaction ID for your own tracking purposes",
+            "example": "ORDER-12345"
           }
         }
       },
-      "InitiatePaymentByCurrencyRequest": {
+      "InitiatePaymentByFiatCurrencyRequest": {
         "type": "object",
         "required": ["amount", "chain", "currency"],
         "properties": {
           "amount": {
             "type": "string",
-            "description": "Payment amount",
+            "description": "Payment amount in fiat currency",
             "example": "1.023"
           },
           "chain": {
@@ -661,8 +1284,13 @@
           },
           "currency": {
             "type": "string",
-            "description": "Currency code",
+            "description": "Cryptocurrency to receive",
             "example": "avalanche"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Optional reference or transaction ID for your own tracking purposes",
+            "example": "ORDER-12345"
           }
         }
       },

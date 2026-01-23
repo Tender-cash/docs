@@ -28,7 +28,7 @@ Get up and running with Tender's API and accept your first cryptocurrency paymen
     ```bash .env
     TENDER_ACCESS_ID=your_access_id_here
     TENDER_ACCESS_SECRET=your_access_secret_here
-    TENDER_BASE_URL=https://devapi.tender.cash
+    TENDER_BASE_URL=https://stagapi.tender.cash
     ```
   </Accordion>
 </AccordionGroup>
@@ -65,7 +65,7 @@ const signature = crypto
   .digest('base64');
 
 // Make API request
-const response = await fetch('https://devapi.tender.cash/v1/api/agent/create', {
+const response = await fetch('https://stagapi.tender.cash/v1/api/agent/create', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ signature = base64.b64encode(
 
 # Make API request
 response = requests.post(
-    'https://devapi.tender.cash/v1/api/agent/create',
+    'https://stagapi.tender.cash/v1/api/agent/create',
     headers={
         'Content-Type': 'application/json',
         'x-access-id': access_id,
@@ -173,7 +173,7 @@ $message = json_encode($payload);
 $signature = base64_encode(hash_hmac('sha256', $message, $accessSecret, true));
 
 // Make API request
-$ch = curl_init('https://devapi.tender.cash/v1/api/agent/create');
+$ch = curl_init('https://stagapi.tender.cash/v1/api/agent/create');
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
     'firstName' => 'John',
@@ -231,7 +231,7 @@ Now let's create a cryptocurrency payment:
 // Using the agentId from Step 2
 const agentId = "abc123xyz";
 
-const paymentResponse = await fetch('https://devapi.tender.cash/v1/api/payment/initiate', {
+const paymentResponse = await fetch('https://stagapi.tender.cash/v1/api/payment/initiate', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
