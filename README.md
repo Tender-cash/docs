@@ -1,16 +1,29 @@
-# Mintlify Starter Kit
+# Tender API Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+Official API documentation for Tender - A cryptocurrency payment gateway platform that enables businesses to accept crypto payments across multiple blockchain networks.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## What This Documentation Covers
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+This documentation provides comprehensive guides and references for integrating with the Tender API:
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+- **Getting Started Guides** - Account setup, API credentials, and quick start tutorials
+- **Authentication** - HMAC-SHA256 signature-based authentication implementation
+- **API Reference** - Complete endpoint documentation with request/response examples
+  - Agents & Businesses - Create and manage sub-businesses
+  - Payment APIs - Initiate and validate cryptocurrency payments
+  - System APIs - Fetch supported chains, currencies, and exchange rates
+  - Webhooks - Real-time event notifications for transactions
+- **Definitions** - Key terms and concepts
+- **SDK Documentation** - JavaScript/TypeScript SDK guides
+
+## Key Features
+
+- Support for multiple blockchains (Ethereum, Avalanche, Polygon, Solana, Bitcoin, TRON, Aptos, and more)
+- Cryptocurrency payment initiation and validation
+- Real-time webhook notifications
+- Agent/sub-business management
+- Live exchange rate data
+- Test and production environments
 
 ## Development
 
@@ -28,9 +41,27 @@ mint dev
 
 View your local preview at `http://localhost:3000`.
 
-## Publishing changes
+## Publishing Changes
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+Changes pushed to the default branch are automatically deployed to production. Make sure to test changes locally before committing.
+
+## Documentation Structure
+
+```
+docs/
+├── api-reference/          # API endpoint documentation
+│   ├── endpoint/          # Individual endpoint files
+│   ├── authentication.mdx # Authentication guide
+│   ├── introduction.mdx   # API overview
+│   └── errors.mdx         # Error handling
+├── get-started/           # Getting started guides
+│   ├── api-credentials.mdx
+│   ├── webhooks.mdx
+│   └── definitions.mdx
+├── sdk/                   # SDK documentation
+├── openapi.json          # OpenAPI specification
+└── docs.json             # Mintlify configuration
+```
 
 ## Need help?
 
@@ -40,4 +71,7 @@ Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/sett
 - If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
 
 ### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+- [Tender Dashboard](https://merchant.tender.cash) - Access your API credentials
+- [Tender Website](https://tender.cash) - Learn more about Tender
+- [Support](mailto:support@tender.cash) - Get help from our team
+- [Mintlify Documentation](https://mintlify.com/docs) - Documentation platform guide
