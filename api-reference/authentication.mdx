@@ -97,7 +97,7 @@ const headers = generateSignature(accessId, accessSecret);
 console.log('Headers:', headers);
 
 // Make API request
-const response = await fetch('https://api.tender.cash/v1/api/agent/create', {
+const response = await fetch('https://secureapi.tender.cash/v1/api/agent/create', {
   method: 'POST',
   headers: headers,
   body: JSON.stringify({
@@ -163,7 +163,7 @@ print('Headers:', headers)
 
 # Make API request
 response = requests.post(
-    'https://api.tender.cash/v1/api/agent/create',
+    'https://secureapi.tender.cash/v1/api/agent/create',
     headers=headers,
     json={
         'firstName': 'John',
@@ -222,7 +222,7 @@ $headers = generateSignature($accessId, $accessSecret);
 print_r($headers);
 
 // Make API request
-$ch = curl_init('https://api.tender.cash/v1/api/agent/create');
+$ch = curl_init('https://secureapi.tender.cash/v1/api/agent/create');
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
     'firstName' => 'John',

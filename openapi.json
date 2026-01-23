@@ -11,12 +11,12 @@
   },
   "servers": [
     {
-      "url": "https://devapi.tender.cash",
-      "description": "Development Server"
+      "url": "https://secureapi.tender.cash",
+      "description": "Production Server"
     },
     {
-      "url": "https://api.tender.cash",
-      "description": "Production Server"
+      "url": "https://devapi.tender.cash",
+      "description": "Development Server"
     }
   ],
   "security": [

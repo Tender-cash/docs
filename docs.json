@@ -120,5 +120,23 @@
       "github": "https://github.com/tender-cash",
       "linkedin": "https://www.linkedin.com/company/tender-merchant/"
     }
+  },
+  "openapi": "openapi.json",
+  "api": {
+    "baseUrl": "https://secureapi.tender.cash",
+    "auth": {
+      "method": "custom",
+      "name": "HMAC Authentication"
+    },
+    "playground": {
+      "display": "interactive",
+      "proxy": true
+    },
+    "examples": {
+      "languages": ["curl", "javascript", "python", "php"],
+      "defaults": "all",
+      "prefill": true,
+      "autogenerate": true
+    }
   }
 }

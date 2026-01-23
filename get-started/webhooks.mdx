@@ -56,7 +56,7 @@ To ensure you are receiving webhooks from Tender, you can define custom headers 
 When registering a webhook via the API, you can specify custom headers that Tender will include in all webhook requests:
 
 ```javascript
-const response = await fetch('https://api.tender.cash/v1/api/webhook', {
+const response = await fetch('https://secureapi.tender.cash/v1/api/webhook', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
